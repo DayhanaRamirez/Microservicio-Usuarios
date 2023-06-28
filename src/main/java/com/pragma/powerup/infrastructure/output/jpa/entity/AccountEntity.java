@@ -1,4 +1,4 @@
-package com.pragma.powerup.infrastructure.out.jpa.entity;
+package com.pragma.powerup.infrastructure.output.jpa.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,17 +13,22 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "objectTable")
+@Table(name = "account")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class ObjectEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "object_id", nullable = false)
-    private Long id;
+public class AccountEntity {
 
-    @Column(length = 50)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
+    private String lastName;
+    private int document;
+    private String cellphone;
+    private String birthdate;
+    private String email;
+    private String password;
+    private Long idRole;
 }

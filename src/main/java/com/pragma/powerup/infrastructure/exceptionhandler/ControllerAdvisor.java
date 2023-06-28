@@ -1,6 +1,6 @@
 package com.pragma.powerup.infrastructure.exceptionhandler;
 
-import com.pragma.powerup.infrastructure.exception.NoDataFoundException;
+import com.pragma.powerup.infrastructure.exception.AccountNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,9 +14,9 @@ public class ControllerAdvisor {
 
     private static final String MESSAGE = "message";
 
-    @ExceptionHandler(NoDataFoundException.class)
+    @ExceptionHandler(AccountNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleNoDataFoundException(
-            NoDataFoundException ignoredNoDataFoundException) {
+            AccountNotFoundException ignoredAccountNotFoundException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.NO_DATA_FOUND.getMessage()));
     }
