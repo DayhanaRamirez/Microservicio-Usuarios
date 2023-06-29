@@ -3,10 +3,7 @@ package com.pragma.powerup.application.dto.request;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -20,7 +17,7 @@ public class AccountRequestUpdateDto extends ObjectRequestDto {
     @NotNull(message = "El documento es requerido")
     private int document;
 
-    @Max(value = 13, message = "El número no puede exceder los 13 caracteres")
+    @Size(min = 10, max = 13, message = "El número no puede exceder los 13 caracteres")
     @NotBlank(message = "El celular es requerido")
     private String cellphone;
 

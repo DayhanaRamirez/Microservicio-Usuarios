@@ -8,6 +8,7 @@ import com.pragma.powerup.application.mapper.IObjectRequestMapper;
 import com.pragma.powerup.application.mapper.IObjectResponseMapper;
 import com.pragma.powerup.domain.api.IAccountServicePort;
 import com.pragma.powerup.domain.model.Account;
+import com.pragma.powerup.domain.spi.IEncryptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +23,12 @@ public class AccountHandler implements IAccountHandler {
     private final IAccountServicePort accountServicePort;
     private final IObjectRequestMapper objectRequestMapper;
     private final IObjectResponseMapper objectResponseMapper;
+    private final IEncryptService encryptService;
 
     @Override
     public void saveAccount(AccountRequestDto accountRequestDto) {
         Account account = objectRequestMapper.accountDtoToAccount(accountRequestDto);
+        account.setPassword(encryptService.encryptPassword(accountRequestDto.getPassword()));
         accountServicePort.saveAccount(account);
     }
 
@@ -47,9 +50,9 @@ public class AccountHandler implements IAccountHandler {
         account.setLastName(accountRequestUpdateDto.getLastName());
         account.setDocument(accountRequestUpdateDto.getDocument());
         account.setCellphone(accountRequestUpdateDto.getCellphone());
-        account.setBirthdate(account.getBirthdate());
-        account.setEmail(account.getEmail());
-        account.setPassword(account.getPassword());
+        account.setBirthdate(accountRequestUpdateDto.getBirthdate());
+        account.setEmail(accountRequestUpdateDto.getEmail());
+        account.setPassword(encryptService.encryptPassword(accountRequestUpdateDto.getPassword()));
         accountServicePort.updateAccount(account);
     }
 

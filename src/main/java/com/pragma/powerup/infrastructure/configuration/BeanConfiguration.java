@@ -12,9 +12,13 @@ import com.pragma.powerup.infrastructure.output.jpa.mapper.IAccountEntityMapper;
 import com.pragma.powerup.infrastructure.output.jpa.mapper.IRoleEntityMapper;
 import com.pragma.powerup.infrastructure.output.jpa.repository.IAccountRepository;
 import com.pragma.powerup.infrastructure.output.jpa.repository.IRoleRepository;
+import com.pragma.powerup.domain.spi.IEncryptService;
+import com.pragma.powerup.infrastructure.service.impl.EncryptServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @RequiredArgsConstructor
@@ -24,6 +28,7 @@ public class BeanConfiguration {
     private final IAccountEntityMapper accountEntityMapper;
     private final IRoleRepository roleRepository;
     private final IRoleEntityMapper roleEntityMapper;
+    private final IEncryptService encryptService;
 
     @Bean
     public IAccountPersistencePort accountPersistencePort(){
@@ -31,7 +36,7 @@ public class BeanConfiguration {
     }
     @Bean
     public IAccountServicePort accountServicePort() {
-        return new AccountUseCase(accountPersistencePort());
+        return new AccountUseCase(accountPersistencePort(), encryptService());
     }
 
     @Bean
@@ -43,4 +48,8 @@ public class BeanConfiguration {
         return new RoleUseCase(rolePersistencePort());
     }
 
+    @Bean
+    public IEncryptService encryptService(){
+        return new EncryptServiceImpl();
+    }
 }

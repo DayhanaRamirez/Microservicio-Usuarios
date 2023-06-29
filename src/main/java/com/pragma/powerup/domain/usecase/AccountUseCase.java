@@ -3,19 +3,23 @@ package com.pragma.powerup.domain.usecase;
 import com.pragma.powerup.domain.api.IAccountServicePort;
 import com.pragma.powerup.domain.model.Account;
 import com.pragma.powerup.domain.spi.IAccountPersistencePort;
+import com.pragma.powerup.domain.spi.IEncryptService;
 
 import java.util.List;
 
 public class AccountUseCase implements IAccountServicePort {
 
     private final IAccountPersistencePort accountPersistencePort;
+    private final IEncryptService encryptServiceImpl;
 
-    public AccountUseCase(IAccountPersistencePort accountPersistencePort) {
+    public AccountUseCase(IAccountPersistencePort accountPersistencePort, IEncryptService encryptService) {
         this.accountPersistencePort = accountPersistencePort;
+        this.encryptServiceImpl = encryptService;
     }
 
     @Override
     public void saveAccount(Account account) {
+        account.setPassword(encryptServiceImpl.encryptPassword(account.getPassword()));
         accountPersistencePort.saveAccount(account);
     }
 
@@ -31,6 +35,7 @@ public class AccountUseCase implements IAccountServicePort {
 
     @Override
     public void updateAccount(Account account) {
+        account.setPassword(encryptServiceImpl.encryptPassword(account.getPassword()));
         accountPersistencePort.updateAccount(account);
     }
 
