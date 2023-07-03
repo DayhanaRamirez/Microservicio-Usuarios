@@ -1,7 +1,7 @@
 package com.pragma.powerup.infrastructure.input.rest;
 
 import com.pragma.powerup.application.dto.request.AccountRequestDto;
-import com.pragma.powerup.application.dto.request.AccountRequestUpdateDto;
+import com.pragma.powerup.application.dto.request.AccountUpdateRequestDto;
 import com.pragma.powerup.application.dto.response.AccountResponseDto;
 import com.pragma.powerup.application.dto.response.ObjectResponseDto;
 import com.pragma.powerup.application.handler.IAccountHandler;
@@ -55,8 +55,8 @@ public class AccountRestController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateAccount(@Valid @RequestBody AccountRequestUpdateDto accountRequestUpdateDto){
-        accountHandler.updateAccount(accountRequestUpdateDto);
+    public ResponseEntity<Void> updateAccount(@Valid @RequestBody AccountUpdateRequestDto accountUpdateRequestDto){
+        accountHandler.updateAccount(accountUpdateRequestDto);
         return ResponseEntity.noContent().build();
     }
 

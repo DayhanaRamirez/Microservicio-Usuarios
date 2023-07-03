@@ -10,16 +10,14 @@ import java.util.List;
 public class AccountUseCase implements IAccountServicePort {
 
     private final IAccountPersistencePort accountPersistencePort;
-    private final IEncryptService encryptServiceImpl;
 
     public AccountUseCase(IAccountPersistencePort accountPersistencePort, IEncryptService encryptService) {
         this.accountPersistencePort = accountPersistencePort;
-        this.encryptServiceImpl = encryptService;
     }
 
     @Override
     public void saveAccount(Account account) {
-        account.setPassword(encryptServiceImpl.encryptPassword(account.getPassword()));
+        account.setIdRole(2L);
         accountPersistencePort.saveAccount(account);
     }
 
@@ -35,7 +33,7 @@ public class AccountUseCase implements IAccountServicePort {
 
     @Override
     public void updateAccount(Account account) {
-        account.setPassword(encryptServiceImpl.encryptPassword(account.getPassword()));
+        account.setIdRole(2L);
         accountPersistencePort.updateAccount(account);
     }
 

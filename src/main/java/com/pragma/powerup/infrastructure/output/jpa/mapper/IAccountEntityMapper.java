@@ -15,5 +15,5 @@ public interface IAccountEntityMapper {
 
     AccountEntity accountToEntity(Account account);
     Account entityToAccount(AccountEntity accountEntity);
-    List<Account> entityToAccountList(List<AccountEntity> accountEntityList);
+    List<Account> entitiesToAccountList(List<AccountEntity> accountEntityList);
 }

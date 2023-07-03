@@ -20,4 +20,6 @@ public interface IObjectResponseMapper {
     List<AccountResponseDto> AccountToAccountDtoList(List<Account> accounts);
 
     RoleResponseDto roleToRoleDto(Role role);
+
+    List<RoleResponseDto> roleToRoleDtoList(List<Role> roles);
 }

@@ -18,9 +18,6 @@ public class RoleJpaAdapter implements IRolePersistencePort {
 
     @Override
     public void saveRole(Role role) {
-        if(roleRepository.findById(role.getId()).isPresent()){
-            throw new RoleAlreadyExistException();
-        }
         roleRepository.save(roleEntityMapper.roleToEntity(role));
     }
 
@@ -30,7 +27,7 @@ public class RoleJpaAdapter implements IRolePersistencePort {
         if(roleEntityList.isEmpty()){
             throw new NoDataFoundException();
         }
-        return roleEntityMapper.entityToRoleList(roleEntityList);
+        return roleEntityMapper.entitiesToRoleList(roleEntityList);
     }
 
     @Override

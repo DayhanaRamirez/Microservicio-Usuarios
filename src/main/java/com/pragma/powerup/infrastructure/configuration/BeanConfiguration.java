@@ -32,7 +32,7 @@ public class BeanConfiguration {
 
     @Bean
     public IAccountPersistencePort accountPersistencePort(){
-        return new AccountJpaAdapter(accountRepository, accountEntityMapper);
+        return new AccountJpaAdapter(accountRepository,roleRepository, accountEntityMapper);
     }
     @Bean
     public IAccountServicePort accountServicePort() {

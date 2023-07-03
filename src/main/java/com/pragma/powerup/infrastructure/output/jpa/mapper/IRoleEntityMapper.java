@@ -14,5 +14,5 @@ import java.util.List;
 public interface IRoleEntityMapper {
     RoleEntity roleToEntity(Role role);
     Role entityToRole(RoleEntity roleEntity);
-    List<Role> entityToRoleList(List<RoleEntity> roleEntityList);
+    List<Role> entitiesToRoleList(List<RoleEntity> roleEntityList);
 }

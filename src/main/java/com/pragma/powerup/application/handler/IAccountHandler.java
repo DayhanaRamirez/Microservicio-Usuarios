@@ -1,7 +1,7 @@
 package com.pragma.powerup.application.handler;
 
 import com.pragma.powerup.application.dto.request.AccountRequestDto;
-import com.pragma.powerup.application.dto.request.AccountRequestUpdateDto;
+import com.pragma.powerup.application.dto.request.AccountUpdateRequestDto;
 import com.pragma.powerup.application.dto.response.AccountResponseDto;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface IAccountHandler {
 
     AccountResponseDto getAccount(Long id);
 
-    void updateAccount(AccountRequestUpdateDto accountRequestUpdateDto);
+    void updateAccount(AccountUpdateRequestDto accountUpdateRequestDto);
 
     void deleteAccount(Long id);
 }

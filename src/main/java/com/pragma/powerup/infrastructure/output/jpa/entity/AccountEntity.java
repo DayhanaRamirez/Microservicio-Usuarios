@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "account")
+@Table(name = "usuarios")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -18,24 +18,31 @@ public class AccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column
+    @Column(name = "nombre")
     private String name;
-    @Column(name = "lastName")
+
+    @Column(name = "apellido")
     private String lastName;
-    @Column
-    private int document;
-    @Column
+
+    @Column(name = "numero_documento")
+    private String document;
+
+    @Column(name = "celular")
     private String cellphone;
-    @Column
-    private String birthdate;
-    @Column
+
+    @Column(name = "fecha_nacimiento")
+    private LocalDate birthdate;
+
+    @Column(name = "correo")
     private String email;
-    @Column
+
+    @Column(name = "clave")
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_id_role", referencedColumnName = "id")
+    @JoinColumn(name = "id_rol")
     private RoleEntity roleEntity;
 }

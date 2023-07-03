@@ -1,6 +1,7 @@
 package com.pragma.powerup.application.mapper;
 
 import com.pragma.powerup.application.dto.request.AccountRequestDto;
+import com.pragma.powerup.application.dto.request.AccountUpdateRequestDto;
 import com.pragma.powerup.application.dto.request.RoleRequestDto;
 import com.pragma.powerup.domain.model.Account;
 import com.pragma.powerup.domain.model.Role;

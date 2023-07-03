@@ -5,8 +5,10 @@ import com.pragma.powerup.domain.spi.IAccountPersistencePort;
 import com.pragma.powerup.infrastructure.exception.AccountNotFoundException;
 import com.pragma.powerup.infrastructure.exception.NoDataFoundException;
 import com.pragma.powerup.infrastructure.output.jpa.entity.AccountEntity;
+import com.pragma.powerup.infrastructure.output.jpa.entity.RoleEntity;
 import com.pragma.powerup.infrastructure.output.jpa.mapper.IAccountEntityMapper;
 import com.pragma.powerup.infrastructure.output.jpa.repository.IAccountRepository;
+import com.pragma.powerup.infrastructure.output.jpa.repository.IRoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +19,14 @@ import java.util.List;
 public class AccountJpaAdapter implements IAccountPersistencePort {
 
     private final IAccountRepository accountRepository;
+    private final IRoleRepository roleRepository;
     private final IAccountEntityMapper accountEntityMapper;
 
     @Override
     public void saveAccount(Account account) {
-        AccountEntity accountEntity = accountEntityMapper.accountToEntity(account);
-        accountRepository.save(accountEntity);
+        AccountEntity entity = accountEntityMapper.accountToEntity(account);
+        entity.setRoleEntity(roleRepository.getReferenceById(account.getIdRole()));
+        accountRepository.save(entity);
     }
 
     @Override
@@ -31,7 +35,7 @@ public class AccountJpaAdapter implements IAccountPersistencePort {
        if(accountEntityList.isEmpty()){
            throw new NoDataFoundException();
        }
-        return accountEntityMapper.entityToAccountList(accountEntityList);
+        return accountEntityMapper.entitiesToAccountList(accountEntityList);
     }
 
     @Override
@@ -42,7 +46,7 @@ public class AccountJpaAdapter implements IAccountPersistencePort {
 
     @Override
     public void updateAccount(Account account) {
-        accountRepository.save(accountEntityMapper.accountToEntity(account));
+        saveAccount(account);
     }
 
     @Override

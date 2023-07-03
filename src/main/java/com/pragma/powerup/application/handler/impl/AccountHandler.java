@@ -1,7 +1,7 @@
 package com.pragma.powerup.application.handler.impl;
 
 import com.pragma.powerup.application.dto.request.AccountRequestDto;
-import com.pragma.powerup.application.dto.request.AccountRequestUpdateDto;
+import com.pragma.powerup.application.dto.request.AccountUpdateRequestDto;
 import com.pragma.powerup.application.dto.response.AccountResponseDto;
 import com.pragma.powerup.application.handler.IAccountHandler;
 import com.pragma.powerup.application.mapper.IObjectRequestMapper;
@@ -44,15 +44,15 @@ public class AccountHandler implements IAccountHandler {
     }
 
     @Override
-    public void updateAccount(AccountRequestUpdateDto accountRequestUpdateDto) {
-        Account account = accountServicePort.getAccount(accountRequestUpdateDto.getId());
-        account.setName(accountRequestUpdateDto.getName());
-        account.setLastName(accountRequestUpdateDto.getLastName());
-        account.setDocument(accountRequestUpdateDto.getDocument());
-        account.setCellphone(accountRequestUpdateDto.getCellphone());
-        account.setBirthdate(accountRequestUpdateDto.getBirthdate());
-        account.setEmail(accountRequestUpdateDto.getEmail());
-        account.setPassword(encryptService.encryptPassword(accountRequestUpdateDto.getPassword()));
+    public void updateAccount(AccountUpdateRequestDto accountUpdateRequestDto) {
+        Account account = accountServicePort.getAccount(accountUpdateRequestDto.getId());
+        account.setName(accountUpdateRequestDto.getName());
+        account.setLastName(accountUpdateRequestDto.getLastName());
+        account.setDocument(accountUpdateRequestDto.getDocument());
+        account.setCellphone(accountUpdateRequestDto.getCellphone());
+        account.setBirthdate(accountUpdateRequestDto.getBirthdate());
+        account.setEmail(accountUpdateRequestDto.getEmail());
+        account.setPassword(encryptService.encryptPassword(accountUpdateRequestDto.getPassword()));
         accountServicePort.updateAccount(account);
     }
 
