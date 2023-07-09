@@ -16,8 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
-public class AccountEntity implements UserDetails {
+public class AccountEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +38,7 @@ public class AccountEntity implements UserDetails {
     @Column(name = "fecha_nacimiento")
     private LocalDate birthdate;
 
-    @Column(name = "correo")
+    @Column(name = "correo", unique = true)
     private String email;
 
     @Column(name = "clave")
@@ -49,38 +48,4 @@ public class AccountEntity implements UserDetails {
     @JoinColumn(name = "id_rol")
     private RoleEntity roleEntity;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(roleEntity.getName()));
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
