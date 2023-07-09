@@ -7,6 +7,7 @@ import com.pragma.powerup.infrastructure.exception.NoDataFoundException;
 import com.pragma.powerup.infrastructure.output.jpa.entity.AccountEntity;
 import com.pragma.powerup.infrastructure.output.jpa.entity.RoleEntity;
 import com.pragma.powerup.infrastructure.output.jpa.mapper.IAccountEntityMapper;
+import com.pragma.powerup.infrastructure.output.jpa.mapper.IRoleEntityMapper;
 import com.pragma.powerup.infrastructure.output.jpa.repository.IAccountRepository;
 import com.pragma.powerup.infrastructure.output.jpa.repository.IRoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,13 @@ public class AccountJpaAdapter implements IAccountPersistencePort {
     private final IAccountRepository accountRepository;
     private final IRoleRepository roleRepository;
     private final IAccountEntityMapper accountEntityMapper;
+    private final IRoleEntityMapper roleEntityMapper;
 
     @Override
     public void saveAccount(Account account) {
-        AccountEntity entity = accountEntityMapper.accountToEntity(account);
-        entity.setRoleEntity(roleRepository.getReferenceById(account.getIdRole()));
-        accountRepository.save(entity);
+        AccountEntity accountEntity = accountEntityMapper.accountToEntity(account);
+        accountEntity.setRoleEntity(roleRepository.getReferenceById(account.getIdRole()));
+        accountRepository.save(accountEntity);
     }
 
     @Override
@@ -35,13 +37,17 @@ public class AccountJpaAdapter implements IAccountPersistencePort {
        if(accountEntityList.isEmpty()){
            throw new NoDataFoundException();
        }
+
         return accountEntityMapper.entitiesToAccountList(accountEntityList);
     }
 
     @Override
     public Account getAccount(Long id) {
-        return accountEntityMapper.entityToAccount(accountRepository.findById(id)
-                .orElseThrow(AccountNotFoundException::new));
+        AccountEntity accountEntity = accountRepository.getReferenceById(id);
+        Account account = accountEntityMapper.entityToAccount(accountRepository.getReferenceById(id));
+        account.setIdRole(roleEntityMapper.entityToRole(accountEntity.getRoleEntity()).getId());
+
+        return account;
     }
 
     @Override

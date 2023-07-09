@@ -11,13 +11,12 @@ public class AccountUseCase implements IAccountServicePort {
 
     private final IAccountPersistencePort accountPersistencePort;
 
-    public AccountUseCase(IAccountPersistencePort accountPersistencePort, IEncryptService encryptService) {
+    public AccountUseCase(IAccountPersistencePort accountPersistencePort) {
         this.accountPersistencePort = accountPersistencePort;
     }
 
     @Override
     public void saveAccount(Account account) {
-        account.setIdRole(2L);
         accountPersistencePort.saveAccount(account);
     }
 
@@ -33,7 +32,6 @@ public class AccountUseCase implements IAccountServicePort {
 
     @Override
     public void updateAccount(Account account) {
-        account.setIdRole(2L);
         accountPersistencePort.updateAccount(account);
     }
 

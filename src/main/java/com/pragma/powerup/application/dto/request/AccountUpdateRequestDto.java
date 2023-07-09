@@ -38,4 +38,7 @@ public class AccountUpdateRequestDto extends ObjectRequestDto {
     @NotBlank(message = "La contraseña es requerida")
     private String password;
 
+    @NotNull(message = "El id del rol es requerido")
+    private Long idRole;
+
 }

@@ -53,6 +53,7 @@ public class AccountHandler implements IAccountHandler {
         account.setBirthdate(accountUpdateRequestDto.getBirthdate());
         account.setEmail(accountUpdateRequestDto.getEmail());
         account.setPassword(encryptService.encryptPassword(accountUpdateRequestDto.getPassword()));
+        account.setIdRole(accountUpdateRequestDto.getIdRole());
         accountServicePort.updateAccount(account);
     }
 
