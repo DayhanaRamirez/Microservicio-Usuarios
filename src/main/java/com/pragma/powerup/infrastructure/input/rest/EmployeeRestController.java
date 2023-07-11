@@ -2,9 +2,12 @@ package com.pragma.powerup.infrastructure.input.rest;
 
 import com.pragma.powerup.application.dto.request.AccountRequestDto;
 import com.pragma.powerup.application.dto.request.AccountUpdateRequestDto;
+import com.pragma.powerup.application.dto.request.EmployeeRequestDto;
+import com.pragma.powerup.application.dto.request.EmployeeRequestUpdateDto;
 import com.pragma.powerup.application.dto.response.AccountResponseDto;
+import com.pragma.powerup.application.dto.response.EmployeeResponseDto;
 import com.pragma.powerup.application.dto.response.ObjectResponseDto;
-import com.pragma.powerup.application.handler.IAccountHandler;
+import com.pragma.powerup.application.handler.IEmployeeHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,11 +23,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/employee")
 @RequiredArgsConstructor
-public class AccountRestController {
+public class EmployeeRestController {
 
-    private final IAccountHandler accountHandler;
+    private final IEmployeeHandler employeeHandler;
 
     @Operation(summary = "Add a new object")
     @ApiResponses(value = {
@@ -32,10 +35,11 @@ public class AccountRestController {
             @ApiResponse(responseCode = "409", description = "Object already exists", content = @Content)
     })
     @PostMapping
-    public ResponseEntity<Void> saveAccount(@Valid @RequestBody AccountRequestDto accountRequestDto) {
-        accountHandler.saveAccount(accountRequestDto);
+    public ResponseEntity<Void> saveEmployee(@Valid @RequestBody EmployeeRequestDto employeeRequestDto) {
+        employeeHandler.saveEmployee(employeeRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
 
     @Operation(summary = "Get all objects")
     @ApiResponses(value = {
@@ -45,24 +49,25 @@ public class AccountRestController {
             @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
     })
     @GetMapping
-    public ResponseEntity<List<AccountResponseDto>> getAllAccounts() {
-        return ResponseEntity.ok(accountHandler.getAllAccounts());
+    public ResponseEntity<List<EmployeeResponseDto>> getAllEmployees() {
+        return ResponseEntity.ok(employeeHandler.getAllEmployees());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AccountResponseDto> getAccount(@PathVariable("id") long id) {
-        return ResponseEntity.ok(accountHandler.getAccount(id));
+    public ResponseEntity<EmployeeResponseDto> getEmployee(@PathVariable("id") long id) {
+        return ResponseEntity.ok(employeeHandler.getEmployee(id));
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateAccount(@Valid @RequestBody AccountUpdateRequestDto accountUpdateRequestDto){
-        accountHandler.updateAccount(accountUpdateRequestDto);
+    public ResponseEntity<Void> updateEmployee(@Valid @RequestBody EmployeeRequestUpdateDto employeeRequestUpdateDto){
+        employeeHandler.updateEmployee(employeeRequestUpdateDto);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable("id") Long id){
-        accountHandler.deleteAccount(id);
+    public ResponseEntity<Void> deleteEmployee(@PathVariable("id") Long id){
+        employeeHandler.deleteEmployee(id);
         return ResponseEntity.noContent().build();
     }
+
 }

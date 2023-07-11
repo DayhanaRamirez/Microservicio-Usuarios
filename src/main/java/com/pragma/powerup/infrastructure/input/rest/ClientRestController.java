@@ -2,9 +2,12 @@ package com.pragma.powerup.infrastructure.input.rest;
 
 import com.pragma.powerup.application.dto.request.AccountRequestDto;
 import com.pragma.powerup.application.dto.request.AccountUpdateRequestDto;
+import com.pragma.powerup.application.dto.request.ClientRequestDto;
+import com.pragma.powerup.application.dto.request.ClientUpdateRequestDto;
 import com.pragma.powerup.application.dto.response.AccountResponseDto;
+import com.pragma.powerup.application.dto.response.ClientResponseDto;
 import com.pragma.powerup.application.dto.response.ObjectResponseDto;
-import com.pragma.powerup.application.handler.IAccountHandler;
+import com.pragma.powerup.application.handler.IClientHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,11 +23,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/client")
 @RequiredArgsConstructor
-public class AccountRestController {
+public class ClientRestController {
 
-    private final IAccountHandler accountHandler;
+    private final IClientHandler clientHandler;
+
 
     @Operation(summary = "Add a new object")
     @ApiResponses(value = {
@@ -32,8 +36,8 @@ public class AccountRestController {
             @ApiResponse(responseCode = "409", description = "Object already exists", content = @Content)
     })
     @PostMapping
-    public ResponseEntity<Void> saveAccount(@Valid @RequestBody AccountRequestDto accountRequestDto) {
-        accountHandler.saveAccount(accountRequestDto);
+    public ResponseEntity<Void> saveClient(@Valid @RequestBody ClientRequestDto clientRequestDto) {
+        clientHandler.saveClient(clientRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -45,24 +49,25 @@ public class AccountRestController {
             @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
     })
     @GetMapping
-    public ResponseEntity<List<AccountResponseDto>> getAllAccounts() {
-        return ResponseEntity.ok(accountHandler.getAllAccounts());
+    public ResponseEntity<List<ClientResponseDto>> getAllClients() {
+        return ResponseEntity.ok(clientHandler.getAllClients());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AccountResponseDto> getAccount(@PathVariable("id") long id) {
-        return ResponseEntity.ok(accountHandler.getAccount(id));
+    public ResponseEntity<ClientResponseDto> getClient(@PathVariable("id") long id) {
+        return ResponseEntity.ok(clientHandler.getClient(id));
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateAccount(@Valid @RequestBody AccountUpdateRequestDto accountUpdateRequestDto){
-        accountHandler.updateAccount(accountUpdateRequestDto);
+    public ResponseEntity<Void> updateClient(@Valid @RequestBody ClientUpdateRequestDto clientUpdateRequestDto){
+        clientHandler.updateClient(clientUpdateRequestDto);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable("id") Long id){
-        accountHandler.deleteAccount(id);
+    public ResponseEntity<Void> deleteClient(@PathVariable("id") Long id){
+        clientHandler.deleteClient(id);
         return ResponseEntity.noContent().build();
     }
+
 }

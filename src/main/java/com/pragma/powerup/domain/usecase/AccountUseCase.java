@@ -17,6 +17,7 @@ public class AccountUseCase implements IAccountServicePort {
 
     @Override
     public void saveAccount(Account account) {
+        account.setIdRole(2L);
         accountPersistencePort.saveAccount(account);
     }
 
@@ -32,6 +33,7 @@ public class AccountUseCase implements IAccountServicePort {
 
     @Override
     public void updateAccount(Account account) {
+        account.setIdRole(2L);
         accountPersistencePort.updateAccount(account);
     }
 

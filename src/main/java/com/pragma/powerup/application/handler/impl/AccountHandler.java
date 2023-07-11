@@ -34,7 +34,7 @@ public class AccountHandler implements IAccountHandler {
 
     @Override
     public List<AccountResponseDto> getAllAccounts() {
-        return objectResponseMapper.AccountToAccountDtoList(accountServicePort.getAllAccounts());
+        return objectResponseMapper.accountToAccountDtoList(accountServicePort.getAllAccounts());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AccountHandler implements IAccountHandler {
         account.setBirthdate(accountUpdateRequestDto.getBirthdate());
         account.setEmail(accountUpdateRequestDto.getEmail());
         account.setPassword(encryptService.encryptPassword(accountUpdateRequestDto.getPassword()));
-        account.setIdRole(accountUpdateRequestDto.getIdRole());
+        account.setIdRole(2L);
         accountServicePort.updateAccount(account);
     }
 
