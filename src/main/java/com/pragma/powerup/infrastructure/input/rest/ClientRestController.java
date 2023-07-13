@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/api/v1/client")
 @RequiredArgsConstructor
 public class ClientRestController {
 
@@ -36,8 +36,8 @@ public class ClientRestController {
             @ApiResponse(responseCode = "409", description = "Object already exists", content = @Content)
     })
     @PostMapping
-    public ResponseEntity<Void> saveClient(@Valid @RequestBody ClientRequestDto clientRequestDto) {
-        clientHandler.saveClient(clientRequestDto);
+    public ResponseEntity<Void> saveClient(@Valid @RequestBody ClientRequestDto clientRequestDto, @RequestHeader("Authorization") String authHeader) {
+        clientHandler.saveClient(clientRequestDto, authHeader);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

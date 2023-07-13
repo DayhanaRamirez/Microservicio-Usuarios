@@ -26,11 +26,11 @@ public interface IObjectResponseMapper {
 
     List<RoleResponseDto> roleToRoleDtoList(List<Role> roles);
 
-    EmployeeResponseDto employeeToEmployeeDtp(Employee employee);
+    EmployeeResponseDto employeeToEmployeeDto(Account employee);
 
-    List<EmployeeResponseDto> employeeToEmployeeDtoList(List<Employee> employees);
+    List<EmployeeResponseDto> employeeToEmployeeDtoList(List<Account> employees);
 
-    ClientResponseDto clientToClientDto(Client client);
+    ClientResponseDto clientToClientDto(Account client);
 
-    List<ClientResponseDto> clientToCLientDtoList(List<Client> clients);
+    List<ClientResponseDto> clientToCLientDtoList(List<Account> clients);
 }

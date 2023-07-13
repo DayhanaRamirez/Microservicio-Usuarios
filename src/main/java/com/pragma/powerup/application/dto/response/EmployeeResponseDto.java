@@ -11,5 +11,4 @@ public class EmployeeResponseDto extends ObjectResponseDto{
     private String cellphone;
     private String email;
     private Long idRole;
-    private Long idRestaurant;
 }

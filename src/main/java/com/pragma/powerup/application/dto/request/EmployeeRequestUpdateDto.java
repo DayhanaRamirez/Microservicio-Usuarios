@@ -30,6 +30,4 @@ public class EmployeeRequestUpdateDto extends ObjectRequestDto{
     @NotBlank(message = "La contraseña es requerida")
     private String password;
 
-    @NotNull(message = "El id del restaurante es requerido")
-    private Long idRestaurant;
 }

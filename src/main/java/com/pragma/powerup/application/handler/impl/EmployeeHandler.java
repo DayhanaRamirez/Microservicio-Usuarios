@@ -7,6 +7,7 @@ import com.pragma.powerup.application.handler.IEmployeeHandler;
 import com.pragma.powerup.application.mapper.IObjectRequestMapper;
 import com.pragma.powerup.application.mapper.IObjectResponseMapper;
 import com.pragma.powerup.domain.api.IEmployeeServicePort;
+import com.pragma.powerup.domain.model.Account;
 import com.pragma.powerup.domain.model.Employee;
 import com.pragma.powerup.domain.spi.IEncryptService;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,13 @@ public class EmployeeHandler implements IEmployeeHandler {
     private final IEncryptService encryptService;
 
     @Override
-    public void saveEmployee(EmployeeRequestDto employeeRequestDto) {
-        Employee employee = objectRequestMapper.employeeDtoToEmployee(employeeRequestDto);
+    public void saveEmployee(EmployeeRequestDto employeeRequestDto, String token) {
+        Account employee = objectRequestMapper.employeeDtoToEmployee(employeeRequestDto);
         employee.setPassword(encryptService.encryptPassword(employeeRequestDto.getPassword()));
-        employeeServicePort.saveEmployee(employee);
+        if (token.startsWith("Bearer ")) {
+            token = token.split(" ")[1].trim();
+        }
+        employeeServicePort.saveEmployee(employee, token);
 
     }
 
@@ -40,19 +44,18 @@ public class EmployeeHandler implements IEmployeeHandler {
 
     @Override
     public EmployeeResponseDto getEmployee(Long id) {
-        return objectResponseMapper.employeeToEmployeeDtp(employeeServicePort.getEmployee(id));
+        return objectResponseMapper.employeeToEmployeeDto(employeeServicePort.getEmployee(id));
     }
 
     @Override
     public void updateEmployee(EmployeeRequestUpdateDto employeeRequestUpdateDto) {
-        Employee employee = employeeServicePort.getEmployee(employeeRequestUpdateDto.getId());
+        Account employee = employeeServicePort.getEmployee(employeeRequestUpdateDto.getId());
         employee.setName(employeeRequestUpdateDto.getName());
         employee.setLastName(employeeRequestUpdateDto.getLastName());
         employee.setDocument(employeeRequestUpdateDto.getDocument());
         employee.setCellphone(employeeRequestUpdateDto.getCellphone());
         employee.setEmail(employeeRequestUpdateDto.getEmail());
         employee.setPassword(encryptService.encryptPassword(employeeRequestUpdateDto.getPassword()));
-        employee.setIdRestaurant(employeeRequestUpdateDto.getIdRestaurant());
         employeeServicePort.updateEmployee(employee);
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IEmployeeHandler {
 
-    void saveEmployee(EmployeeRequestDto employeeRequestDto);
+    void saveEmployee(EmployeeRequestDto employeeRequestDto, String token);
 
     List<EmployeeResponseDto> getAllEmployees();
 

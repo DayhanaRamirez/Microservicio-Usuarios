@@ -6,13 +6,13 @@ import com.pragma.powerup.domain.model.Employee;
 import java.util.List;
 
 public interface IEmployeeServicePort {
-    void saveEmployee(Employee employee);
+    void saveEmployee(Account account, String token);
 
-    List<Employee> getAllEmployees();
+    List<Account> getAllEmployees();
 
-    Employee getEmployee(Long id);
+    Account getEmployee(Long id);
 
-    void updateEmployee(Employee employee);
+    void updateEmployee(Account account);
 
     void deleteEmployee(Long id);
 

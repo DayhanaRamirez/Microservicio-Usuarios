@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IClientHandler {
 
-    void saveClient(ClientRequestDto clientRequestDto);
+    void saveClient(ClientRequestDto clientRequestDto, String token);
 
     List<ClientResponseDto> getAllClients();
 

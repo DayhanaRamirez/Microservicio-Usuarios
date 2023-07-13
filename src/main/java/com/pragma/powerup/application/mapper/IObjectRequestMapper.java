@@ -15,8 +15,8 @@ public interface IObjectRequestMapper {
     Account accountDtoToAccount(AccountRequestDto accountRequestDto);
     Role roleDtoToRole(RoleRequestDto roleRequestDto);
 
-    Employee employeeDtoToEmployee(EmployeeRequestDto employeeRequestDto);
+    Account employeeDtoToEmployee(EmployeeRequestDto employeeRequestDto);
 
-    Client clientDtoToClient(ClientRequestDto clientRequestDto);
+    Account clientDtoToClient(ClientRequestDto clientRequestDto);
 
 }

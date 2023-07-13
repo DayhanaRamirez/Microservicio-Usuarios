@@ -24,7 +24,6 @@ public class RoleEntity {
     @Column(name = "nombre")
     private String name;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "descripcion")
     private String description;
 }

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -59,4 +60,26 @@ public class AccountJpaAdapter implements IAccountPersistencePort {
     public void deleteAccount(Long id) {
         accountRepository.deleteById(id);
     }
+
+    @Override
+    public Account getAccountByEmail(String email) {
+        AccountEntity accountEntity = accountRepository.findFirstByEmail(email);
+        if(accountEntity == null){
+            throw  new AccountNotFoundException();
+        }
+
+        Account account = accountEntityMapper.entityToAccount(accountEntity);
+        account.setIdRole(roleEntityMapper.entityToRole(accountEntity.getRoleEntity()).getId());
+        return account;
+    }
+
+    @Override
+    public Long getAccountIdRole(String email) {
+        AccountEntity accountEntity = accountRepository.findFirstByEmail(email);
+        Account account = accountEntityMapper.entityToAccount(accountEntity);
+        account.setIdRole(roleEntityMapper.entityToRole(accountEntity.getRoleEntity()).getId());
+        return account.getIdRole();
+    }
+
+
 }

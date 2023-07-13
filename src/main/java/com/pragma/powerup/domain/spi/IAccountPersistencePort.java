@@ -14,4 +14,9 @@ public interface IAccountPersistencePort {
     void updateAccount(Account account);
 
     void deleteAccount(Long id);
+
+    Account getAccountByEmail(String email);
+
+    Long getAccountIdRole(String email);
+
 }

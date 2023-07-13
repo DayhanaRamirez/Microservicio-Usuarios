@@ -1,8 +1,11 @@
 package com.pragma.powerup.infrastructure.output.jpa.adapter;
 
+import com.pragma.powerup.domain.model.Account;
 import com.pragma.powerup.domain.model.Client;
 import com.pragma.powerup.domain.spi.IClientPersistencePort;
+import com.pragma.powerup.infrastructure.exception.AccountNotFoundException;
 import com.pragma.powerup.infrastructure.exception.NoDataFoundException;
+import com.pragma.powerup.infrastructure.output.jpa.entity.AccountEntity;
 import com.pragma.powerup.infrastructure.output.jpa.entity.ClientEntity;
 import com.pragma.powerup.infrastructure.output.jpa.mapper.IClientEntityMapper;
 import com.pragma.powerup.infrastructure.output.jpa.mapper.IRoleEntityMapper;
@@ -24,15 +27,15 @@ public class ClientJpaAdapter implements IClientPersistencePort {
 
 
     @Override
-    public void saveClient(Client client) {
-        ClientEntity clientEntity = clientEntityMapper.clientToEntity(client);
+    public void saveClient(Account client) {
+        AccountEntity clientEntity = clientEntityMapper.clientToEntity(client);
         clientEntity.setRoleEntity(roleRepository.getReferenceById(client.getIdRole()));
         clientRepository.save(clientEntity);
     }
 
     @Override
-    public List<Client> getAllClients() {
-        List<ClientEntity> clientEntityList = clientRepository.findAll();
+    public List<Account> getAllClients() {
+        List<AccountEntity> clientEntityList = clientRepository.findAll();
         if(clientEntityList.isEmpty()){
             throw new NoDataFoundException();
         }
@@ -41,20 +44,32 @@ public class ClientJpaAdapter implements IClientPersistencePort {
     }
 
     @Override
-    public Client getClient(Long id) {
-        ClientEntity clientEntity = clientRepository.getReferenceById(id);
-        Client client = clientEntityMapper.entityToClient(clientEntity);
+    public Account getClient(Long id) {
+        AccountEntity clientEntity = clientRepository.getReferenceById(id);
+        Account client = clientEntityMapper.entityToClient(clientEntity);
         client.setIdRole(roleEntityMapper.entityToRole(clientEntity.getRoleEntity()).getId());
         return client;
     }
 
     @Override
-    public void updateClient(Client client) {
+    public void updateClient(Account client) {
         saveClient(client);
     }
 
     @Override
     public void deleteClient(Long id) {
         clientRepository.deleteById(id);
+    }
+
+    @Override
+    public Account getAccountByEmail(String email) {
+        AccountEntity accountEntity = clientRepository.findFirstByEmail(email);
+        if(accountEntity == null){
+            throw  new AccountNotFoundException();
+        }
+
+        Account account = clientEntityMapper.entityToClient(accountEntity);
+        account.setIdRole(roleEntityMapper.entityToRole(accountEntity.getRoleEntity()).getId());
+        return account;
     }
 }

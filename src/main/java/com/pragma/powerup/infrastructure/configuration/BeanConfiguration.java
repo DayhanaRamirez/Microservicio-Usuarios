@@ -9,6 +9,7 @@ import com.pragma.powerup.domain.usecase.AccountUseCase;
 import com.pragma.powerup.domain.usecase.ClientUseCase;
 import com.pragma.powerup.domain.usecase.EmployeeUseCase;
 import com.pragma.powerup.domain.usecase.RoleUseCase;
+import com.pragma.powerup.infrastructure.configuration.security.TokenUtils;
 import com.pragma.powerup.infrastructure.output.jpa.adapter.AccountJpaAdapter;
 import com.pragma.powerup.infrastructure.output.jpa.adapter.ClientJpaAdapter;
 import com.pragma.powerup.infrastructure.output.jpa.adapter.EmployeeJpaAdapter;
@@ -41,6 +42,7 @@ public class BeanConfiguration {
     private final IClientEntityMapper clientEntityMapper;
     private final IEmployeeRepository employeeRepository;
     private final IEmployeeEntityMapper employeeEntityMapper;
+    private final TokenUtils tokenUtils;
 
     @Bean
     public IAccountPersistencePort accountPersistencePort(){
@@ -48,7 +50,7 @@ public class BeanConfiguration {
     }
     @Bean
     public IAccountServicePort accountServicePort() {
-        return new AccountUseCase(accountPersistencePort());
+        return new AccountUseCase(accountPersistencePort(), tokenUtils);
     }
 
     @Bean
@@ -67,7 +69,7 @@ public class BeanConfiguration {
 
     @Bean
     public IClientServicePort clientServicePort(){
-        return new ClientUseCase(clientPersistencePort());
+        return new ClientUseCase(clientPersistencePort(), tokenUtils);
     }
 
     @Bean
@@ -77,7 +79,7 @@ public class BeanConfiguration {
 
     @Bean
     public IEmployeeServicePort employeeServicePort(){
-        return new EmployeeUseCase(employeePersistencePort());
+        return new EmployeeUseCase(employeePersistencePort(), tokenUtils);
     }
 
     @Bean

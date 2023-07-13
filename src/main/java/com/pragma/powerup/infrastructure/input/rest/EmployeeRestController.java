@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/api/v1/employee")
 @RequiredArgsConstructor
 public class EmployeeRestController {
 
@@ -35,8 +35,8 @@ public class EmployeeRestController {
             @ApiResponse(responseCode = "409", description = "Object already exists", content = @Content)
     })
     @PostMapping
-    public ResponseEntity<Void> saveEmployee(@Valid @RequestBody EmployeeRequestDto employeeRequestDto) {
-        employeeHandler.saveEmployee(employeeRequestDto);
+    public ResponseEntity<Void> saveEmployee(@Valid @RequestBody EmployeeRequestDto employeeRequestDto, @RequestHeader("Authorization") String authHeader) {
+        employeeHandler.saveEmployee(employeeRequestDto, authHeader);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

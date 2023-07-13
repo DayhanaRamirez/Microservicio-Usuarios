@@ -1,8 +1,11 @@
 package com.pragma.powerup.infrastructure.output.jpa.adapter;
 
+import com.pragma.powerup.domain.model.Account;
 import com.pragma.powerup.domain.model.Employee;
 import com.pragma.powerup.domain.spi.IEmployeePersistencePort;
+import com.pragma.powerup.infrastructure.exception.AccountNotFoundException;
 import com.pragma.powerup.infrastructure.exception.NoDataFoundException;
+import com.pragma.powerup.infrastructure.output.jpa.entity.AccountEntity;
 import com.pragma.powerup.infrastructure.output.jpa.entity.EmployeeEntity;
 import com.pragma.powerup.infrastructure.output.jpa.mapper.IEmployeeEntityMapper;
 import com.pragma.powerup.infrastructure.output.jpa.mapper.IRoleEntityMapper;
@@ -23,15 +26,15 @@ public class EmployeeJpaAdapter implements IEmployeePersistencePort {
     private final IRoleEntityMapper roleEntityMapper;
 
     @Override
-    public void saveEmployee(Employee employee) {
-        EmployeeEntity employeeEntity = employeeEntityMapper.employeeToEntity(employee);
+    public void saveEmployee(Account employee) {
+        AccountEntity employeeEntity = employeeEntityMapper.employeeToEntity(employee);
         employeeEntity.setRoleEntity(roleRepository.getReferenceById(employee.getIdRole()));
         employeeRepository.save(employeeEntity);
     }
 
     @Override
-    public List<Employee> getAllEmployees() {
-        List<EmployeeEntity> employeeEntityList = employeeRepository.findAll();
+    public List<Account> getAllEmployees() {
+        List<AccountEntity> employeeEntityList = employeeRepository.findAll();
         if(employeeEntityList.isEmpty()){
             throw new NoDataFoundException();
         }
@@ -40,20 +43,32 @@ public class EmployeeJpaAdapter implements IEmployeePersistencePort {
     }
 
     @Override
-    public Employee getEmployee(Long id) {
-        EmployeeEntity employeeEntity = employeeRepository.getReferenceById(id);
-        Employee employee = employeeEntityMapper.entityToEmployee(employeeEntity);
+    public Account getEmployee(Long id) {
+        AccountEntity employeeEntity = employeeRepository.getReferenceById(id);
+        Account employee = employeeEntityMapper.entityToEmployee(employeeEntity);
         employee.setIdRole(roleEntityMapper.entityToRole(employeeEntity.getRoleEntity()).getId());
         return employee;
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
+    public void updateEmployee(Account employee) {
         saveEmployee(employee);
     }
 
     @Override
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
+    }
+
+    @Override
+    public Account getAccountByEmail(String email) {
+        AccountEntity accountEntity = employeeRepository.findFirstByEmail(email);
+        if(accountEntity == null){
+            throw  new AccountNotFoundException();
+        }
+
+        Account account = employeeEntityMapper.entityToEmployee(accountEntity);
+        account.setIdRole(roleEntityMapper.entityToRole(accountEntity.getRoleEntity()).getId());
+        return account;
     }
 }

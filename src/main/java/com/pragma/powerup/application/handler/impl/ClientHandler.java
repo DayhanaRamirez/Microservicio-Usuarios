@@ -7,6 +7,7 @@ import com.pragma.powerup.application.handler.IClientHandler;
 import com.pragma.powerup.application.mapper.IObjectRequestMapper;
 import com.pragma.powerup.application.mapper.IObjectResponseMapper;
 import com.pragma.powerup.domain.api.IClientServicePort;
+import com.pragma.powerup.domain.model.Account;
 import com.pragma.powerup.domain.model.Client;
 import com.pragma.powerup.domain.spi.IEncryptService;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,13 @@ public class ClientHandler implements IClientHandler {
     private final IEncryptService encryptService;
 
     @Override
-    public void saveClient(ClientRequestDto clientRequestDto) {
-        Client client = objectRequestMapper.clientDtoToClient(clientRequestDto);
+    public void saveClient(ClientRequestDto clientRequestDto, String token) {
+        Account client = objectRequestMapper.clientDtoToClient(clientRequestDto);
         client.setPassword(encryptService.encryptPassword(clientRequestDto.getPassword()));
-        clientServicePort.saveClient(client);
+        if (token.startsWith("Bearer ")) {
+            token = token.split(" ")[1].trim();
+        }
+        clientServicePort.saveClient(client, token);
 
     }
 
@@ -45,7 +49,7 @@ public class ClientHandler implements IClientHandler {
 
     @Override
     public void updateClient(ClientUpdateRequestDto clientUpdateRequestDto) {
-        Client client = clientServicePort.getClient(clientUpdateRequestDto.getId());
+        Account client = clientServicePort.getClient(clientUpdateRequestDto.getId());
         client.setName(clientUpdateRequestDto.getName());
         client.setLastName(clientUpdateRequestDto.getLastName());
         client.setDocument(clientUpdateRequestDto.getDocument());

@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface IAccountServicePort {
 
-    void saveAccount(Account account);
+    void saveAccount(Account account, String token);
 
     List<Account> getAllAccounts();
 
@@ -14,4 +14,6 @@ public interface IAccountServicePort {
     void updateAccount(Account account);
 
     void deleteAccount(Long id);
+
+    Long getAccountIdRole(String token);
 }

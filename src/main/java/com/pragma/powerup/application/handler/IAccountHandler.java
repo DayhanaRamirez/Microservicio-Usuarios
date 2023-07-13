@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IAccountHandler {
 
-    void saveAccount(AccountRequestDto accountRequestDto);
+    void saveAccount(AccountRequestDto accountRequestDto, String token);
 
     List<AccountResponseDto> getAllAccounts();
 
@@ -17,4 +17,6 @@ public interface IAccountHandler {
     void updateAccount(AccountUpdateRequestDto accountUpdateRequestDto);
 
     void deleteAccount(Long id);
+
+    Long getAccountIdRole(String token);
 }

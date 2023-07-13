@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/api/v1/role")
 @RequiredArgsConstructor
 public class RoleRestController {
 

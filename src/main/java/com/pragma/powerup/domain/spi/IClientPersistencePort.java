@@ -1,17 +1,20 @@
 package com.pragma.powerup.domain.spi;
 
+import com.pragma.powerup.domain.model.Account;
 import com.pragma.powerup.domain.model.Client;
 
 import java.util.List;
 
 public interface IClientPersistencePort {
-    void saveClient(Client client);
+    void saveClient(Account account);
 
-    List<Client> getAllClients();
+    List<Account> getAllClients();
 
-    Client getClient(Long id);
+    Account getClient(Long id);
 
-    void updateClient(Client client);
+    void updateClient(Account account);
 
     void deleteClient(Long id);
+
+    Account getAccountByEmail(String email);
 }

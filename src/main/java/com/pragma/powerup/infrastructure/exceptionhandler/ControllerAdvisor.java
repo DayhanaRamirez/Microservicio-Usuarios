@@ -1,5 +1,6 @@
 package com.pragma.powerup.infrastructure.exceptionhandler;
 
+import com.pragma.powerup.domain.exception.ForbiddenUserException;
 import com.pragma.powerup.infrastructure.exception.AccountNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,13 @@ public class ControllerAdvisor {
             AccountNotFoundException ignoredAccountNotFoundException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.NO_DATA_FOUND.getMessage()));
+    }
+
+    @ExceptionHandler(ForbiddenUserException.class)
+    public ResponseEntity<Map<String, String>> handleForbiddenUserException(
+            ForbiddenUserException ignoredForbiddenUserException) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.FORBIDDEN_USER.getMessage()));
     }
     
 }

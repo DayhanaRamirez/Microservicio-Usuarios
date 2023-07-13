@@ -1,6 +1,8 @@
 package com.pragma.powerup.infrastructure.output.jpa.mapper;
 
+import com.pragma.powerup.domain.model.Account;
 import com.pragma.powerup.domain.model.Client;
+import com.pragma.powerup.infrastructure.output.jpa.entity.AccountEntity;
 import com.pragma.powerup.infrastructure.output.jpa.entity.ClientEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -12,8 +14,8 @@ import java.util.List;
         unmappedSourcePolicy = ReportingPolicy.IGNORE
 )
 public interface IClientEntityMapper {
-    ClientEntity clientToEntity(Client client);
-    Client entityToClient(ClientEntity clientEntity);
+    AccountEntity clientToEntity(Account client);
+    Account entityToClient(AccountEntity clientEntity);
 
-    List<Client> entitiesToClientList(List<ClientEntity> clientEntityList);
+    List<Account> entitiesToClientList(List<AccountEntity> clientEntityList);
 }

@@ -9,6 +9,7 @@ import java.util.Optional;
 @Repository
 public interface IAccountRepository extends JpaRepository<AccountEntity, Long> {
 
+    AccountEntity findFirstByEmail(String email);
     Optional<AccountEntity> findOneByEmail(String email);
 
 }

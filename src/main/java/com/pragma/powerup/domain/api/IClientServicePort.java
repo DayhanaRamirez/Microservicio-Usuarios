@@ -6,13 +6,13 @@ import com.pragma.powerup.domain.model.Client;
 import java.util.List;
 
 public interface IClientServicePort {
-    void saveClient(Client client);
+    void saveClient(Account account, String token);
 
-    List<Client> getAllClients();
+    List<Account> getAllClients();
 
-    Client getClient(Long id);
+    Account getClient(Long id);
 
-    void updateClient(Client client);
+    void updateClient(Account account);
 
     void deleteClient(Long id);
 }
