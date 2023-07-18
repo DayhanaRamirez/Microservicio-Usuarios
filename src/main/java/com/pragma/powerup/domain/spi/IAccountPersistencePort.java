@@ -19,4 +19,7 @@ public interface IAccountPersistencePort {
 
     Long getAccountIdRole(String email);
 
+    Long[] getUserIdAndRole(String email);
+
+
 }

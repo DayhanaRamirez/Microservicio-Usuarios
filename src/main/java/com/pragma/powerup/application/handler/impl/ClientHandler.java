@@ -27,13 +27,10 @@ public class ClientHandler implements IClientHandler {
     private final IEncryptService encryptService;
 
     @Override
-    public void saveClient(ClientRequestDto clientRequestDto, String token) {
+    public void saveClient(ClientRequestDto clientRequestDto) {
         Account client = objectRequestMapper.clientDtoToClient(clientRequestDto);
         client.setPassword(encryptService.encryptPassword(clientRequestDto.getPassword()));
-        if (token.startsWith("Bearer ")) {
-            token = token.split(" ")[1].trim();
-        }
-        clientServicePort.saveClient(client, token);
+        clientServicePort.saveClient(client);
 
     }
 

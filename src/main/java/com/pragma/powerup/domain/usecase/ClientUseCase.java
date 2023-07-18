@@ -19,11 +19,9 @@ public class ClientUseCase implements IClientServicePort {
     }
 
     @Override
-    public void saveClient(Account client, String token) {
+    public void saveClient(Account client) {
         client.setIdRole(4L);
         clientPersistencePort.saveClient(client);
-
-
     }
 
     @Override

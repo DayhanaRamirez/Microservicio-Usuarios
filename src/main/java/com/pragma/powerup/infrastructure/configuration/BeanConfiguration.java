@@ -1,9 +1,6 @@
 package com.pragma.powerup.infrastructure.configuration;
 
-import com.pragma.powerup.domain.api.IAccountServicePort;
-import com.pragma.powerup.domain.api.IClientServicePort;
-import com.pragma.powerup.domain.api.IEmployeeServicePort;
-import com.pragma.powerup.domain.api.IRoleServicePort;
+import com.pragma.powerup.domain.api.*;
 import com.pragma.powerup.domain.spi.*;
 import com.pragma.powerup.domain.usecase.AccountUseCase;
 import com.pragma.powerup.domain.usecase.ClientUseCase;
@@ -26,8 +23,6 @@ import com.pragma.powerup.infrastructure.service.impl.EncryptServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @RequiredArgsConstructor
@@ -43,6 +38,7 @@ public class BeanConfiguration {
     private final IEmployeeRepository employeeRepository;
     private final IEmployeeEntityMapper employeeEntityMapper;
     private final TokenUtils tokenUtils;
+    private final IGetToken getToken;
 
     @Bean
     public IAccountPersistencePort accountPersistencePort(){
@@ -50,13 +46,14 @@ public class BeanConfiguration {
     }
     @Bean
     public IAccountServicePort accountServicePort() {
-        return new AccountUseCase(accountPersistencePort(), tokenUtils);
+        return new AccountUseCase(accountPersistencePort(), getToken);
     }
 
     @Bean
     public IRolePersistencePort rolePersistencePort(){
         return new RoleJpaAdapter(roleRepository, roleEntityMapper);
     }
+
     @Bean
     public IRoleServicePort roleServicePort() {
         return new RoleUseCase(rolePersistencePort());

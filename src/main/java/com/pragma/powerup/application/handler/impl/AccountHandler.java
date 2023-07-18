@@ -29,10 +29,7 @@ public class AccountHandler implements IAccountHandler {
     public void saveAccount(AccountRequestDto accountRequestDto, String token) {
         Account account = objectRequestMapper.accountDtoToAccount(accountRequestDto);
         account.setPassword(encryptService.encryptPassword(accountRequestDto.getPassword()));
-        if (token.startsWith("Bearer ")) {
-            token = token.split(" ")[1].trim();
-        }
-        accountServicePort.saveAccount(account, token);
+        accountServicePort.saveAccount(account, trimToken(token));
     }
 
     @Override
@@ -67,9 +64,20 @@ public class AccountHandler implements IAccountHandler {
 
     @Override
     public Long getAccountIdRole(String token) {
+        return accountServicePort.getAccountIdRole(trimToken(token));
+    }
+
+    @Override
+    public Long[] getUserIdAndRole(String token) {
+        return accountServicePort.getUserIdAndRole(token);
+    }
+
+    private String trimToken(String token){
         if (token.startsWith("Bearer ")) {
             token = token.split(" ")[1].trim();
         }
-        return accountServicePort.getAccountIdRole(token);
+        return token;
     }
+
+
 }

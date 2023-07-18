@@ -1,30 +1,28 @@
 package com.pragma.powerup.domain.usecase;
 
 import com.pragma.powerup.domain.api.IAccountServicePort;
+import com.pragma.powerup.domain.api.IGetToken;
 import com.pragma.powerup.domain.exception.ForbiddenUserException;
 import com.pragma.powerup.domain.model.Account;
 import com.pragma.powerup.domain.spi.IAccountPersistencePort;
-import com.pragma.powerup.domain.spi.IEncryptService;
 import com.pragma.powerup.infrastructure.configuration.security.TokenUtils;
-import com.pragma.powerup.infrastructure.output.jpa.entity.AccountEntity;
 
-import javax.swing.*;
-import java.sql.SQLOutput;
 import java.util.List;
 
 public class AccountUseCase implements IAccountServicePort {
 
     private final IAccountPersistencePort accountPersistencePort;
-    private final TokenUtils tokenUtils;
 
-    public AccountUseCase(IAccountPersistencePort accountPersistencePort, TokenUtils tokenUtils) {
+    private final IGetToken getToken;
+
+    public AccountUseCase(IAccountPersistencePort accountPersistencePort, IGetToken getToken) {
         this.accountPersistencePort = accountPersistencePort;
-        this.tokenUtils = tokenUtils;
+        this.getToken = getToken;
     }
 
     @Override
     public void saveAccount(Account newAccount, String token) {
-        String email = tokenUtils.getUsernameFromToken(token);
+        String email = getToken.getUsernameFromToken(token);
         Account account = accountPersistencePort.getAccountByEmail(email);
         if(account.getIdRole() != 1){
             throw  new ForbiddenUserException();
@@ -56,7 +54,13 @@ public class AccountUseCase implements IAccountServicePort {
 
     @Override
     public Long getAccountIdRole(String token) {
-        String email = tokenUtils.getUsernameFromToken(token);
+        String email = getToken.getUsernameFromToken(token);
         return accountPersistencePort.getAccountIdRole(email);
+    }
+
+    @Override
+    public Long[] getUserIdAndRole(String token) {
+        String email = getToken.getUsernameFromToken(token);
+        return accountPersistencePort.getUserIdAndRole(email);
     }
 }

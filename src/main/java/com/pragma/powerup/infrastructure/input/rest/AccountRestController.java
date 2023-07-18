@@ -69,7 +69,16 @@ public class AccountRestController {
     }
 
     @GetMapping("/role")
-    public ResponseEntity<Long> getAccountId(String authHeader){;
+    public ResponseEntity<Long> getAccountId(@RequestHeader("Authorization") String authHeader){;
+        System.out.println("Hola");
         return ResponseEntity.ok(accountHandler.getAccountIdRole(authHeader));
     }
+
+    @GetMapping("/roleAndId")
+    public ResponseEntity<Long[]> getUserIdAndRole(@RequestHeader("Authorization") String authHeader){;
+        return ResponseEntity.ok(accountHandler.getUserIdAndRole(authHeader));
+    }
+
+
+
 }

@@ -6,7 +6,7 @@ import com.pragma.powerup.domain.model.Client;
 import java.util.List;
 
 public interface IClientServicePort {
-    void saveClient(Account account, String token);
+    void saveClient(Account account);
 
     List<Account> getAllClients();
 

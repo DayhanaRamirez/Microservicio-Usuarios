@@ -36,8 +36,8 @@ public class ClientRestController {
             @ApiResponse(responseCode = "409", description = "Object already exists", content = @Content)
     })
     @PostMapping
-    public ResponseEntity<Void> saveClient(@Valid @RequestBody ClientRequestDto clientRequestDto, @RequestHeader("Authorization") String authHeader) {
-        clientHandler.saveClient(clientRequestDto, authHeader);
+    public ResponseEntity<Void> saveClient(@Valid @RequestBody ClientRequestDto clientRequestDto) {
+        clientHandler.saveClient(clientRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

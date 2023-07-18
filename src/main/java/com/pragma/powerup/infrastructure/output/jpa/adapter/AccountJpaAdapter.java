@@ -81,5 +81,12 @@ public class AccountJpaAdapter implements IAccountPersistencePort {
         return account.getIdRole();
     }
 
+    @Override
+    public Long[] getUserIdAndRole(String email) {
+        Account account = getAccountByEmail(email);
+        Long[] data = {account.getId(), account.getIdRole()};
+        return data;
+    }
+
 
 }

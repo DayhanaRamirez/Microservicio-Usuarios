@@ -16,4 +16,6 @@ public interface IAccountServicePort {
     void deleteAccount(Long id);
 
     Long getAccountIdRole(String token);
+
+    Long[] getUserIdAndRole(String token);
 }
